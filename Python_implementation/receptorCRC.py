@@ -1,14 +1,15 @@
 from view import *
 
-class Receptor():
+class ReceptorCRC():
 
     def __init__(self, response) -> None:
-        
 
+        print("Entra")
         self.trama = []
         for c in response:
             if (c == '1'): self.trama.append(True)
             elif (c == '0'): self.trama.append(False)
+        printTrama(self.trama)
 
         # generate polinomio
         self.polinomio = [
@@ -17,6 +18,8 @@ class Receptor():
             False, False, False, False, True, True, True, False, 
             True, False, False, True, True, False, True, False
         ]
+
+        printTrama(self.polinomio)
 
         self.CRC()
 

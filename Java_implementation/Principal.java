@@ -1,32 +1,82 @@
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 public class Principal {
-    public static void main(String[] arg) {
+
+    private static String	HOST = "127.0.0.1";
+    private static int	PORT = 65432;
+
+    public static void main(String[] arg) throws IOException, UnknownHostException, InterruptedException {
 
         View view = new View();
         StringToFile stf = new StringToFile();
-        
+
+        // User input
 
         String input = view.getUserInput();
         System.out.println("user input \n" + input);
 
-        // Give input to emisor
-        EmisorCRC emisor = new EmisorCRC(input);
-        String response = emisor.get_response();
+        // choosing the algorithm to use
+        String alg = view.algorithToUse();
 
-        stf.createTextFile(response, "responseCRC");
+        String response = "";
+
+        if (alg.equals("HAM")) {}
+        else if (alg.equals("CRC")) {
+            EmisorCRC emisor = new EmisorCRC(input);
+            response = emisor.get_response();
+        }
+
+        // socket management
+
+        //ObjectOutputStream oos = null; //para serialized objects
+		OutputStreamWriter writer = null;
+        ObjectInputStream ois = null;
+        System.out.println("Emisor Java Sockets\n");
+
+        //crear socket/conexion
+		Socket socketCliente = new Socket( InetAddress.getByName(HOST), PORT);
+
+		//mandar data 
+		System.out.println("Enviando Data\n");
+		writer = new OutputStreamWriter(socketCliente.getOutputStream());
+
+        // Algorithm to use
+		writer.write(alg + "$");
+
+		String payload = response;
+		writer.write(payload);	//enviar payload
+		Thread.sleep(100);
+
+		//limpieza
+		System.out.println("Liberando Sockets\n");
+		writer.close();
+		socketCliente.close();
+        
+
+        // // Give input to emisor
+        // EmisorCRC emisor = new EmisorCRC(input);
+        // String response = emisor.get_response();
+
+        // stf.createTextFile(response, "responseCRC");
 
 
-        // ReceptorCRC receptor = new ReceptorCRC(response);
-        System.out.println("\nCódigo de Hamming");
-        EmisorHam emisorH = new EmisorHam(input);
-        String[] n = emisorH.get_response().split(";");
-        StringBuilder a = new StringBuilder(n[0]);
-        String res = a.reverse().toString();
-        System.out.println("Data enviada por el emisor: "+input);
-        System.out.println("Respuesta del emisor: "+res+"\n");
-        String resH = emisorH.get_response();
-        StringBuilder stringBuilder = new StringBuilder(resH);
-        String responseH = stringBuilder.reverse().toString();
-        stf.createTextFile(responseH, "responseHamming");
+        // // ReceptorCRC receptor = new ReceptorCRC(response);
+        // System.out.println("\nCódigo de Hamming");
+        // EmisorHam emisorH = new EmisorHam(input);
+        // String[] n = emisorH.get_response().split(";");
+        // StringBuilder a = new StringBuilder(n[0]);
+        // String res = a.reverse().toString();
+        // System.out.println("Data enviada por el emisor: "+input);
+        // System.out.println("Respuesta del emisor: "+res+"\n");
+        // String resH = emisorH.get_response();
+        // StringBuilder stringBuilder = new StringBuilder(resH);
+        // String responseH = stringBuilder.reverse().toString();
+        // stf.createTextFile(responseH, "responseHamming");
 
     }
 }
