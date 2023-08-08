@@ -13,6 +13,7 @@ public class Principal {
     public static void main(String[] arg) throws IOException, UnknownHostException, InterruptedException {
 
         View view = new View();
+        Ruido ruido = new Ruido();
         Presentation pres = new Presentation();
 
         // User input
@@ -31,17 +32,19 @@ public class Principal {
         if (alg.equals("HAM")) {
             EmisorHam emisorH = new EmisorHam(encode_input);
             response = emisorH.get_response();
-
+            
+            StringBuilder newResponse = new StringBuilder(response); 
+            // modificación del mensaje
+            response = ruido.genRuido(alg, newResponse.reverse().toString());
         }
 
         else if (alg.equals("CRC")) {
             EmisorCRC emisor = new EmisorCRC(encode_input);
             response = emisor.get_response();
+            
+            // modificación del mensaje
+            response = ruido.genRuido(alg, response);
         }
-
-        // modificación del mensaje
-        Ruido ruido = new Ruido();
-        response = ruido.genRuido(alg, response);
 
         // socket management
 
