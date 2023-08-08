@@ -5,11 +5,9 @@
     Laboratorio#2 PT.1
     Corrección de errores (Hamming)
 '''
-
 from prettytable import PrettyTable
-import copy
 
-class Receptor():
+class ReceptorHam():
     def __init__(self, data, bitsA):
         self.originalDa = data
         self.data = data[:-3]

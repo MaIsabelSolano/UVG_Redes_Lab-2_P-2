@@ -1,5 +1,6 @@
 import socket 
 from receptorCRC import *
+from receptorHam import *
 
 HOST = "127.0.0.1"  # IP, capa de Red. 127.0.0.1 es localhost
 
@@ -36,7 +37,18 @@ def main():
 
     if (algorithm == "HAM"):
         # Use hamming
-        0 
+        bitsA, req = message.split(";")
+        Rec = ReceptorHam(req, bitsA)
+        res,correcion = Rec.check()
+
+        print()
+        print("Data enviada al receptor: ", req)
+        print("\nResultado:", res)
+        if correcion == "":
+            print("Trama descartada por errores")
+        else:
+            print(correcion)
+        print()
 
     if (algorithm == "CRC"):
         # Use CRC-32

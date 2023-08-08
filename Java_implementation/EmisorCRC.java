@@ -29,8 +29,8 @@ public class EmisorCRC {
                 trama.add(false);
             }
 
-        System.out.println("\ncon padding");
-        view.printTrama(trama);
+        // System.out.println("\ncon padding");
+        // view.printTrama(trama);
 
         // generate polinomio
         polinomio = new ArrayList<>();
@@ -42,8 +42,8 @@ public class EmisorCRC {
         };
         for (boolean b: pol) polinomio.add(b);
 
-        System.out.println("\npolinomio");
-        view.printTrama(polinomio);
+        // System.out.println("\npolinomio");
+        // view.printTrama(polinomio);
 
         // excecute algorithm
         CRC();
@@ -58,10 +58,10 @@ public class EmisorCRC {
         for (int i = 0; i < polinomio.size(); i++) {
             actual.add(trama.get(i) ^ polinomio.get(i));
         }
-        System.out.println();
-        view.printTrama(trama);
-        view.printTrama(polinomio);
-        view.printTrama(actual);
+        // System.out.println();
+        // view.printTrama(trama);
+        // view.printTrama(polinomio);
+        // view.printTrama(actual);
 
         int nextB = polinomio.size();
 
@@ -76,9 +76,9 @@ public class EmisorCRC {
             // check if the first digit is 0            
             if (actual.get(0)) {
 
-                System.out.println();
-                view.printTrama(actual);
-                view.printTrama(polinomio);
+                // System.out.println();
+                // view.printTrama(actual);
+                // view.printTrama(polinomio);
 
                 // oparate normally
                 ArrayList<Boolean> temp = new ArrayList<>();
@@ -86,15 +86,16 @@ public class EmisorCRC {
                     temp.add(actual.get(i) ^ polinomio.get(i));
                 }
 
-                view.printTrama(temp);
+                // view.printTrama(temp);
 
                 // replace
                 actual = new ArrayList<>(temp);
             }
 
             else {
-                System.out.println();
-                view.printTrama(actual);
+                // Movimiento de 0s
+                // System.out.println();
+                // view.printTrama(actual);
             }
 
         }
