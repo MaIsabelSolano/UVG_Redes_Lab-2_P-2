@@ -44,16 +44,20 @@ def main():
         print()
         print("Data enviada al receptor: ", req)
         print("\nResultado:", res)
-        if correcion == "":
-            print("Trama descartada por errores")
+        if correcion != "":
+            print(f"Se hizo la correcion. Trama final: {correcion}")
+            print(f"Mensaje final: {binary_ascii_to_text(correcion)}")
         else:
-            print(correcion)
+            print(req)
+            print(f"Mensaje final: {binary_ascii_to_text(req)}")
         print()
 
     if (algorithm == "CRC"):
         # Use CRC-32
         rec = ReceptorCRC(message)
-
+        res = rec.get_final_results()
+        if res != "":
+            print(f"Mensaje final: {binary_ascii_to_text(res)}")
 
 if __name__ == '__main__':
     main()

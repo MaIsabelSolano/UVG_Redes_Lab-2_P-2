@@ -5,6 +5,8 @@ class ReceptorCRC():
     def __init__(self, response) -> None:
 
         self.trama = []
+        self.res = False
+        self.data = response
         for c in response:
             if (c == '1'): self.trama.append(True)
             elif (c == '0'): self.trama.append(False)
@@ -27,7 +29,7 @@ class ReceptorCRC():
 
         # Initialize actual
         for i in range(len(self.polinomio)):
-            actual.append(self.trama[i] ^ self.polinomio[i])
+            actual.append(self.trama[i])
 
         # print()
         # printTrama(self.trama)
@@ -70,7 +72,15 @@ class ReceptorCRC():
         for b in actual:
             if b: cambiado = True
 
-        if (not cambiado): print("\nMensaje enviado sin cambios\n")
-        else: print("\nMensaje envaido con errores\n")
+        if (not cambiado): 
+            print("\nMensaje enviado sin cambios\n")
+            self.res = True
+        else: 
+            print("\nMensaje enviado con errores\n")
 
+    def get_final_results(self):
+        if self.res:
+            return self.data[:-31]
+        else:
+            return ""
         

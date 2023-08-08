@@ -13,11 +13,15 @@ public class Principal {
     public static void main(String[] arg) throws IOException, UnknownHostException, InterruptedException {
 
         View view = new View();
+        Presentation pres = new Presentation();
 
         // User input
-
         String input = view.getUserInput();
-        System.out.println("user input \n" + input);
+        System.out.println("User input \n" + input);
+
+        // Obtaining the binary ascii code of the user input
+        String encode_input = pres.textToBinaryAscii(input);
+        System.out.println("Encode user input \n" + encode_input);
 
         // choosing the algorithm to use
         String alg = view.algorithToUse();
@@ -25,13 +29,13 @@ public class Principal {
         String response = "";
 
         if (alg.equals("HAM")) {
-            EmisorHam emisorH = new EmisorHam(input);
+            EmisorHam emisorH = new EmisorHam(encode_input);
             response = emisorH.get_response();
 
         }
 
         else if (alg.equals("CRC")) {
-            EmisorCRC emisor = new EmisorCRC(input);
+            EmisorCRC emisor = new EmisorCRC(encode_input);
             response = emisor.get_response();
         }
 

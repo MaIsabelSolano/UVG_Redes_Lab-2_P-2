@@ -56,7 +56,7 @@ public class EmisorCRC {
 
         // initialize by copying the first bits of the trama
         for (int i = 0; i < polinomio.size(); i++) {
-            actual.add(trama.get(i) ^ polinomio.get(i));
+            actual.add(trama.get(i));
         }
         // System.out.println();
         // view.printTrama(trama);

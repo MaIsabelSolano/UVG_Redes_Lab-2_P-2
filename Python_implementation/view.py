@@ -34,14 +34,18 @@ def getUserInput():
 
             else:
                 print("\n[INPUT INVALIDO] Pruebe nuevamente")
-        
-
-
+    
 def printTrama(t):
     res = ""
-
     for b in t:
         if (b): res += "1"
         if (not b): res += "0"
-
     print(res)
+    
+def binary_ascii_to_text(binary_ascii):
+    text = ""
+    for i in range(0, len(binary_ascii), 8):
+        binary_char = binary_ascii[i:i + 8]
+        ascii_value = int(binary_char, 2)
+        text += chr(ascii_value)
+    return text

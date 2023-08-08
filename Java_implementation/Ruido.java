@@ -56,6 +56,7 @@ public class Ruido {
 
         }
 
-        return res; 
+        StringBuilder newS = new StringBuilder(res);
+        return newS.reverse().toString(); 
     }
 }

@@ -114,11 +114,10 @@ class ReceptorHam():
         return numero_decimal
     
     def check(self):
-
         bitsA, bitsB = self.get_response()
         if bitsA != bitsB and not all(elemento == '0' for elemento in list(bitsB)):
             decimal = self.binario_a_decimal(bitsB)
-            return (f"Hubo un error en el bit {decimal}", f"Se hizo la correcion. Trama final: {self.toggle_char_at_position(decimal)}")
+            return (f"Hubo un error en el bit {decimal}", self.toggle_char_at_position(decimal))
         return ("Todo correcto, el mensaje no cuenta con errores", "")
                 
     def toggle_char_at_position(self, position):
