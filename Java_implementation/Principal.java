@@ -35,6 +35,10 @@ public class Principal {
             response = emisor.get_response();
         }
 
+        // modificación del mensaje
+        Ruido ruido = new Ruido();
+        response = ruido.genRuido(alg, response);
+
         // socket management
 
         //ObjectOutputStream oos = null; //para serialized objects
