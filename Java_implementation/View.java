@@ -12,7 +12,7 @@ public class View {
         boolean gettingInput = true;
 
         while (gettingInput) {
-            System.out.print("Ingrese la secuencia a emitir: ");
+            System.out.print("Ingrese el mensaje que desea enviar: ");
             String Userinput = scan.nextLine();
 
             System.out.println("Desea enviar " + Userinput + " al emisor?: (y/n)");

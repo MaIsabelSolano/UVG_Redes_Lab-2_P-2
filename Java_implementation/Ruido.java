@@ -53,6 +53,10 @@ public class Ruido {
 
                 res += c;
             }
+            res += ";";
+            for (char c: sep[2].toCharArray()) {
+                res += c;
+            }
 
             System.out.println("ham ruido");
             System.out.println(trama);

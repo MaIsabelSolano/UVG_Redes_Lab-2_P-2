@@ -37,7 +37,7 @@ def main():
 
     if (algorithm == "HAM"):
         # Use hamming
-        bitsA, req = message.split(";")
+        bitsA, req, orig = message.split(";")
         Rec = ReceptorHam(req, bitsA)
         res,correcion = Rec.check()
 
@@ -45,11 +45,11 @@ def main():
         print("Data enviada al receptor: ", req)
         print("\nResultado:", res)
         if correcion != "":
-            print(f"Se hizo la correcion. Trama final: {correcion}")
-            print(f"Mensaje final: {binary_ascii_to_text(correcion)}")
+            print(f"Se hizo la correcion. Trama final: {orig}")
+            print(f"Mensaje final: {binary_ascii_to_text(orig)}")
         else:
-            print(req)
-            print(f"Mensaje final: {binary_ascii_to_text(req)}")
+            print(orig)
+            print(f"Mensaje final: {binary_ascii_to_text(orig)}")
         print()
 
     if (algorithm == "CRC"):

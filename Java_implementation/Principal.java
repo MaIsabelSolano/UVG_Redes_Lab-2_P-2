@@ -32,10 +32,9 @@ public class Principal {
         if (alg.equals("HAM")) {
             EmisorHam emisorH = new EmisorHam(encode_input);
             response = emisorH.get_response();
-            
-            StringBuilder newResponse = new StringBuilder(response); 
+
             // modificación del mensaje
-            response = ruido.genRuido(alg, newResponse.reverse().toString());
+            response = ruido.genRuido(alg, response);
         }
 
         else if (alg.equals("CRC")) {
