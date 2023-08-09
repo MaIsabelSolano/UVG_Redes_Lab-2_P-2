@@ -11,7 +11,7 @@ public class Ruido {
         if (alg.equals("CRC")) {
             int numRand = 0;
             for (char c: trama.toCharArray()) {
-                numRand = rand.nextInt(501);
+                numRand = rand.nextInt(10001);
 
                 if (numRand == 375) {
                     // Realizar switch
@@ -21,13 +21,17 @@ public class Ruido {
 
                 res += c;
             }
+
+            System.out.println("CRC ruido");
+            System.out.println(trama);
+            System.out.println(res);
         }
 
         else if (alg.equals("HAM")) {
             String[] sep = trama.split(";");
             int numRand = 0;
             for (char c: sep[0].toCharArray()) {
-                numRand = rand.nextInt(1001);
+                numRand = rand.nextInt(100001);
 
                 if (numRand == 375) {
                     // Realizar switch
@@ -39,7 +43,7 @@ public class Ruido {
             }
             res += ";";
             for (char c: sep[1].toCharArray()) {
-                numRand = rand.nextInt(501);
+                numRand = rand.nextInt(10001);
 
                 if (numRand == 375) {
                     // Realizar switch
