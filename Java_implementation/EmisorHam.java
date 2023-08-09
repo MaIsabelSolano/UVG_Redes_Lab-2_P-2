@@ -79,8 +79,7 @@ public class EmisorHam {
             finalString.append(value);
         }
 
-        finalResponse = finalString.toString()+";"+bitsA;
-
+        finalResponse = finalString.toString()+";"+bitsA+";"+input;
     }
 
     private static boolean contains(int[] arr, int num) {
