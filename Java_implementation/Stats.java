@@ -14,6 +14,8 @@ public class Stats {
     public static void main(String[] args) throws IOException, UnknownHostException, InterruptedException  {
 
         Random rand = new Random();
+        Ruido ruido = new Ruido();
+        StringToFile stf = new StringToFile();
 
         int iterations = 100;
         String trama;
@@ -45,18 +47,14 @@ public class Stats {
         ArrayList<String> algorithmd_CRC = new ArrayList<>();
         for (int i = 0; i < tramas.size(); i ++ ) {
 
-            String temp = "";
             emisorCRC = new EmisorCRC(tramas.get(i));
-            temp = emisorCRC.get_response();
-
-            algorithmd_CRC.add(temp);
+            algorithmd_CRC.add(emisorCRC.get_response());
 
         }
 
         ArrayList<String> modified_CRC = new ArrayList<>();
         ArrayList<String> noisedTramas_CRC = new ArrayList<>();
-        Ruido ruido = new Ruido();
-
+        
         // tramas posible modification
         for (int i = 0; i < algorithmd_CRC.size(); i++) {
             
@@ -73,7 +71,6 @@ public class Stats {
         }
 
         // save to file
-        StringToFile stf = new StringToFile();
         stf.createCSV(
             tramas, 
             algorithmd_CRC,
@@ -109,6 +106,76 @@ public class Stats {
             writer.close();
             socketCliente.close();
         }
+
+        // Hamming
+
+        EmisorHam emisorHam;
+
+        ArrayList<String> algorithmd_Ham = new ArrayList<>();
+        for (int i = 0; i < tramas.size(); i ++ ) {
+
+            emisorHam = new EmisorHam(tramas.get(i));
+            algorithmd_Ham.add(emisorHam.get_response());
+
+        }
+
+        ArrayList<String> modified_Ham = new ArrayList<>();
+        ArrayList<String> noisedTramas_Ham = new ArrayList<>();
+        
+        // tramas posible modification
+        for (int i = 0; i < algorithmd_Ham.size(); i++) {
+
+            String temp = algorithmd_Ham.get(i);
+            temp = ruido.genRuido("HAM", temp);
+
+            noisedTramas_Ham.add(temp);
+
+            // check if it changed
+            if (temp.equals(algorithmd_Ham.get(i))) {
+                modified_Ham.add("0");
+            } else modified_Ham.add("1");
+
+        }
+
+        // save to file
+
+        // save to file
+        stf.createCSV(
+            tramas, 
+            algorithmd_Ham,
+            modified_Ham,
+            noisedTramas_Ham,
+            "output/emisor_Ham.csv"
+        );
+
+
+        // socket management
+
+        for (int i = 0; i < noisedTramas_Ham.size(); i++) {
+            //ObjectOutputStream oos = null; //para serialized objects
+            OutputStreamWriter writer = null;
+            System.out.println("\nEmisor Java Sockets");
+
+            //crear socket/conexion
+            Socket socketCliente = new Socket( InetAddress.getByName(HOST), PORT);
+
+            //mandar data 
+            System.out.println("Enviando Data");
+            writer = new OutputStreamWriter(socketCliente.getOutputStream());
+
+            // Algorithm to use
+            writer.write("HAM" + "$");
+
+            String payload = noisedTramas_Ham.get(i);
+            writer.write(payload);	//enviar payload
+            Thread.sleep(100);
+
+            //limpieza
+            System.out.println("Liberando Sockets");
+            writer.close();
+            socketCliente.close();
+        }
+
         
     }
 

@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -49,7 +48,6 @@ public class Principal {
 
         //ObjectOutputStream oos = null; //para serialized objects
 		OutputStreamWriter writer = null;
-        ObjectInputStream ois = null;
         System.out.println("Emisor Java Sockets\n");
 
         //crear socket/conexion

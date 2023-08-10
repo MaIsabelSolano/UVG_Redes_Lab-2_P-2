@@ -43,7 +43,7 @@ public class Ruido {
             }
             res += ";";
             for (char c: sep[1].toCharArray()) {
-                numRand = rand.nextInt(10001);
+                numRand = rand.nextInt(1001);
 
                 if (numRand == 375) {
                     // Realizar switch
