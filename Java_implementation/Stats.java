@@ -17,7 +17,7 @@ public class Stats {
         Ruido ruido = new Ruido();
         StringToFile stf = new StringToFile();
 
-        int iterations = 100;
+        int iterations = 500;
         String trama;
         ArrayList<String> tramas = new ArrayList<>();
 

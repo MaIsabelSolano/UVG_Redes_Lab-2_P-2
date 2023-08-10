@@ -15,7 +15,7 @@ def main():
     withError_CRC = []
     residuos_CRC = []
 
-    iterations = 100
+    iterations = 500
 
     # CRC-32 ______________________________
     
@@ -62,14 +62,14 @@ def main():
         csv_writer = csv.writer(csv_file)
 
         # Titles
-        temp = ["alg_received", "err", "res"]
+        temp = ["id","alg_received", "err", "res"]
         csv_writer.writerow(temp)
         
         # Write the data to the CSV file row by row
         for i in range(iterations):
             al_ac = "'" + str(algorithmd_CRC[i]) + "'"
             we_ac = "'" + str(withError_CRC[i]) + "'"
-            temp = [al_ac, we_ac, residuos_CRC[i]]
+            temp = [i, al_ac, we_ac, residuos_CRC[i]]
             csv_writer.writerow(temp)
 
 
@@ -138,7 +138,7 @@ def main():
         csv_writer = csv.writer(csv_file)
 
         # Titles
-        temp = ["alg_received", "bits", "reqs", "orig", "corr", "res"]
+        temp = ["id","alg_received", "bits", "reqs", "orig", "corr", "res"]
         csv_writer.writerow(temp)
         
         # Write the data to the CSV file row by row
@@ -149,7 +149,7 @@ def main():
             or_ac = "'" + str(originals_Ham[i]) + "'"
             co_ac = "'" + str(correccion_Ham[i]) + "'"
             res_ac = "'" + str(responses_Ham[i]) + "'"
-            temp = [al_ac, bi_ac, req_ac, or_ac, co_ac, res_ac]
+            temp = [i, al_ac, bi_ac, req_ac, or_ac, co_ac, res_ac]
             csv_writer.writerow(temp)
 
 

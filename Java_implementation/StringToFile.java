@@ -13,12 +13,12 @@ public class StringToFile {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
 
             // titles
-            writer.write("trama_og,codified,modified,w_noise\n");
+            writer.write("id,trama_og,codified,modified,w_noise\n");
 
             // content
             for (int i = 0; i < tramas.size(); i++) {
 
-                writer.write("'"+tramas.get(i) + "'','" + algorithm.get(i) + "'','" + noised.get(i) + "'','" + modified.get(i) + "'," +"\n");
+                writer.write(Integer.toString(i)+",'"+tramas.get(i) + "','" + algorithm.get(i) + "','" + noised.get(i) + "','" + modified.get(i) + "'\n");
             }
 
             writer.close();
