@@ -1,10 +1,17 @@
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.zip.CRC32;
 
 public class Stats {
 
-    public static void main(String[] args) {
+    private static String	HOST = "127.0.0.1";
+    private static int	PORT = 65432;
+
+    public static void main(String[] args) throws IOException, UnknownHostException, InterruptedException  {
 
         Random rand = new Random();
 
@@ -13,7 +20,7 @@ public class Stats {
         ArrayList<String> tramas = new ArrayList<>();
 
         // tramas generation
-        for (int i = 0; i <= iterations; i ++) {
+        for (int i = 0; i < iterations; i ++) {
 
             // initialize empty array/trama 
             trama = "";
@@ -31,20 +38,35 @@ public class Stats {
 
         }
 
+        // CRC-32
+
+        EmisorCRC emisorCRC;
+
+        ArrayList<String> algorithmd = new ArrayList<>();
+        for (int i = 0; i < tramas.size(); i ++ ) {
+
+            String temp = "";
+            emisorCRC = new EmisorCRC(tramas.get(i));
+            temp = emisorCRC.get_response();
+
+            algorithmd.add(temp);
+
+        }
+
         ArrayList<String> modified = new ArrayList<>();
         ArrayList<String> noisedTramas = new ArrayList<>();
         Ruido ruido = new Ruido();
 
         // tramas posible modification
-        for (int i = 0; i < tramas.size(); i++) {
+        for (int i = 0; i < algorithmd.size(); i++) {
             
-            String temp = tramas.get(i);
+            String temp = algorithmd.get(i);
             temp = ruido.genRuido("CRC", temp);
 
             noisedTramas.add(temp);
 
             // check if it changed
-            if (temp.equals(tramas.get(i))) {
+            if (temp.equals(algorithmd.get(i))) {
                 modified.add("0");
             } else modified.add("1");
 
@@ -54,10 +76,39 @@ public class Stats {
         StringToFile stf = new StringToFile();
         stf.createCSV(
             tramas, 
+            algorithmd,
             modified,
             noisedTramas,
-            "originales.csv"
+            "output/emisor_CRC.csv"
         );
+
+
+        // socket management
+
+        for (int i = 0; i < algorithmd.size(); i++) {
+            //ObjectOutputStream oos = null; //para serialized objects
+            OutputStreamWriter writer = null;
+            System.out.println("Emisor Java Sockets\n");
+
+            //crear socket/conexion
+            Socket socketCliente = new Socket( InetAddress.getByName(HOST), PORT);
+
+            //mandar data 
+            System.out.println("Enviando Data\n");
+            writer = new OutputStreamWriter(socketCliente.getOutputStream());
+
+            // Algorithm to use
+            writer.write("CRCS" + "$");
+
+            String payload = algorithmd.get(i);
+            writer.write(payload);	//enviar payload
+            Thread.sleep(100);
+
+            //limpieza
+            System.out.println("Liberando Sockets\n");
+            writer.close();
+            socketCliente.close();
+        }
         
     }
 

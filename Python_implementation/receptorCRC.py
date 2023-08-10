@@ -67,12 +67,14 @@ class ReceptorCRC():
         print("\nResultado receptor")
         printTrama(actual)
 
-        cambiado = False
+        self.residue = actual
+
+        self.cambiado = False
 
         for b in actual:
-            if b: cambiado = True
+            if b: self.cambiado = True
 
-        if (not cambiado): 
+        if (not self.cambiado): 
             print("\nMensaje enviado sin cambios\n")
             self.res = True
         else: 
@@ -83,4 +85,20 @@ class ReceptorCRC():
             return self.data[:-31]
         else:
             return ""
+        
+    def detectedError(self):
+        return self.cambiado
+    
+    def getResidue(self):
+
+        res = ""
+
+        for x in self.residue:
+            if x:
+                res += "1"
+            else: 
+                res += "0"
+
+        return res
+
         

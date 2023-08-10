@@ -7,14 +7,18 @@ public class StringToFile {
 
     public StringToFile() {}
 
-    public void createCSV(ArrayList<String> tramas, ArrayList<String> modified, ArrayList<String> noised, String fileName) {
+    public void createCSV(ArrayList<String> tramas, ArrayList<String> algorithm, ArrayList<String> modified, ArrayList<String> noised, String fileName) {
         try {
             // Inicializar el buffer
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
 
+            // titles
+            writer.write("trama_og,codified,modified,w_noise\n");
+
+            // content
             for (int i = 0; i < tramas.size(); i++) {
 
-                writer.write(tramas.get(i) + ","+ modified.get(i) + "," + noised.get(i) + "," +"\n");
+                writer.write(tramas.get(i) + "," + algorithm.get(i) + "," + noised.get(i) + "," + modified.get(i) + "," +"\n");
             }
 
             writer.close();
