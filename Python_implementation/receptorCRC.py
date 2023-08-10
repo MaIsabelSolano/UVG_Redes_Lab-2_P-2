@@ -87,17 +87,20 @@ class ReceptorCRC():
             return ""
         
     def detectedError(self):
-        return self.cambiado
+        if self.cambiado: return 1
+        else: return 0
     
     def getResidue(self):
 
-        res = ""
+        res = "'"
 
         for x in self.residue:
             if x:
                 res += "1"
             else: 
                 res += "0"
+
+        res += "'"
 
         return res
 

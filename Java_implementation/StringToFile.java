@@ -18,7 +18,7 @@ public class StringToFile {
             // content
             for (int i = 0; i < tramas.size(); i++) {
 
-                writer.write(tramas.get(i) + "," + algorithm.get(i) + "," + noised.get(i) + "," + modified.get(i) + "," +"\n");
+                writer.write("'"+tramas.get(i) + "'','" + algorithm.get(i) + "'','" + noised.get(i) + "'','" + modified.get(i) + "''," +"\n");
             }
 
             writer.close();

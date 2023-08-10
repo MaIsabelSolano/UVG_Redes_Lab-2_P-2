@@ -42,33 +42,33 @@ public class Stats {
 
         EmisorCRC emisorCRC;
 
-        ArrayList<String> algorithmd = new ArrayList<>();
+        ArrayList<String> algorithmd_CRC = new ArrayList<>();
         for (int i = 0; i < tramas.size(); i ++ ) {
 
             String temp = "";
             emisorCRC = new EmisorCRC(tramas.get(i));
             temp = emisorCRC.get_response();
 
-            algorithmd.add(temp);
+            algorithmd_CRC.add(temp);
 
         }
 
-        ArrayList<String> modified = new ArrayList<>();
-        ArrayList<String> noisedTramas = new ArrayList<>();
+        ArrayList<String> modified_CRC = new ArrayList<>();
+        ArrayList<String> noisedTramas_CRC = new ArrayList<>();
         Ruido ruido = new Ruido();
 
         // tramas posible modification
-        for (int i = 0; i < algorithmd.size(); i++) {
+        for (int i = 0; i < algorithmd_CRC.size(); i++) {
             
-            String temp = algorithmd.get(i);
+            String temp = algorithmd_CRC.get(i);
             temp = ruido.genRuido("CRC", temp);
 
-            noisedTramas.add(temp);
+            noisedTramas_CRC.add(temp);
 
             // check if it changed
-            if (temp.equals(algorithmd.get(i))) {
-                modified.add("0");
-            } else modified.add("1");
+            if (temp.equals(algorithmd_CRC.get(i))) {
+                modified_CRC.add("0");
+            } else modified_CRC.add("1");
 
         }
 
@@ -76,36 +76,36 @@ public class Stats {
         StringToFile stf = new StringToFile();
         stf.createCSV(
             tramas, 
-            algorithmd,
-            modified,
-            noisedTramas,
+            algorithmd_CRC,
+            modified_CRC,
+            noisedTramas_CRC,
             "output/emisor_CRC.csv"
         );
 
 
         // socket management
 
-        for (int i = 0; i < algorithmd.size(); i++) {
+        for (int i = 0; i < noisedTramas_CRC.size(); i++) {
             //ObjectOutputStream oos = null; //para serialized objects
             OutputStreamWriter writer = null;
-            System.out.println("Emisor Java Sockets\n");
+            System.out.println("\nEmisor Java Sockets");
 
             //crear socket/conexion
             Socket socketCliente = new Socket( InetAddress.getByName(HOST), PORT);
 
             //mandar data 
-            System.out.println("Enviando Data\n");
+            System.out.println("Enviando Data");
             writer = new OutputStreamWriter(socketCliente.getOutputStream());
 
             // Algorithm to use
             writer.write("CRCS" + "$");
 
-            String payload = algorithmd.get(i);
+            String payload = noisedTramas_CRC.get(i);
             writer.write(payload);	//enviar payload
             Thread.sleep(100);
 
             //limpieza
-            System.out.println("Liberando Sockets\n");
+            System.out.println("Liberando Sockets");
             writer.close();
             socketCliente.close();
         }

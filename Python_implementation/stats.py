@@ -55,7 +55,7 @@ def main():
         if res != "":
             print(f"Mensaje final: {binary_ascii_to_text(res)}")
 
-        if (rec.detectedError): withError.append("1")
+        if (rec.detectedError()): withError.append("1")
         else: withError.append("0")
 
         residuos.append(rec.getResidue())
@@ -66,10 +66,16 @@ def main():
 
     with open("output/receptor_CRC.csv", 'w', newline='') as csv_file:
         csv_writer = csv.writer(csv_file)
+
+        # Titles
+        temp = ["alg_received", "err", "res"]
+        csv_writer.writerow(temp)
         
         # Write the data to the CSV file row by row
         for i in range(iterations):
-            temp = [algorithmd[i], withError[i], residuos[i]]
+            al_ac = "'" + str(algorithmd[i]) + "'"
+            we_ac = "'" + str(withError[i]) + "'"
+            temp = [al_ac, we_ac, residuos[i]]
             csv_writer.writerow(temp)
 
 
