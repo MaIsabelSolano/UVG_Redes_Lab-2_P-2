@@ -11,7 +11,7 @@ public class Ruido {
         if (alg.equals("CRC")) {
             int numRand = 0;
             for (char c: trama.toCharArray()) {
-                numRand = rand.nextInt(10001);
+                numRand = rand.nextInt(1001);
 
                 if (numRand == 375) {
                     // Realizar switch
